@@ -1,14 +1,11 @@
 pub mod sensor {
     use std::time::{Duration, Instant};
-    
     use rust_gpiozero::*;
 
     const MEDIAN_READINGS: usize    = 11;
     const MEDIAN_INDEX: usize       = 6;
-
-    const WAIT_FOR_READING: u64     = 60;
-
     const DIVISOR_INCHES: u128      = 148;
+    const MAX_IN_INCHES: u128       = 196; // max distance of sensor
 
     const DIVISOR_CM: u128          = 148;
 
@@ -26,21 +23,6 @@ pub mod sensor {
                 reading:    0,
             }
         }
-
-        /*
-        pub fn start(&mut self) {
-            
-            thread::scope(|t| {
-                t.spawn(|_| loop {
-                    self.threads += 1;
-
-                    println!("num threads: {}", self.threads);
-                    // sensor requires time before each reading
-                    std::thread::sleep(Duration::from_millis(WAIT_FOR_READING));
-                });
-            }).unwrap();
-        }
-        */
 
         pub fn get_median_reading(&mut self) -> u128 {
             let mut last_ten    = Vec::with_capacity(MEDIAN_READINGS);
@@ -67,16 +49,15 @@ pub mod sensor {
                 while pin_in.is_active() {}
 
                 let time_elapsed    = time_start.elapsed().as_micros();
-                let distance        = time_elapsed / DIVISOR_INCHES; 
-                // println!("Distance: {:?}", distance);
+                let mut distance    = time_elapsed / DIVISOR_INCHES; 
 
+                // remove obvious outliers -- those past max range of device
+                if distance >= MAX_IN_INCHES { distance = self.reading }
                 last_ten.push(distance);
             }
 
-            let median = *last_ten.select_nth_unstable(MEDIAN_INDEX).1;
-            last_ten.remove(0);
-
-            median
+                self.reading = *last_ten.select_nth_unstable(MEDIAN_INDEX).1; // return median
+                self.reading
         }
     }
 }
