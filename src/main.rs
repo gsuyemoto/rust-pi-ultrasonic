@@ -8,19 +8,15 @@ use rust_gpiozero::*;
 
 fn main() {
     let mag         = InputDevice::new(23);
-    let mut trig    = OutputDevice::new(5);
-    let echo        = InputDevice::new(6);
 	let mag_led 	    = LED::new(25);
 	let ppl_led 	    = LED::new(18);
 
     mag_led.on();
     ppl_led.on();
 
-    let mut ultrasonic = Ultrasonic::new(trig, echo);
-    ultrasonic.start();
+    let mut ultrasonic = Ultrasonic::new(5, 6);
 
-    sleep(Duration::from_secs(1));
-    println!("reading: {}", ultrasonic.get_reading());
-
-    ultrasonic.stop();
+    loop {    
+        println!("reading: {}", ultrasonic.get_median_reading());
+    }
 }
