@@ -61,3 +61,25 @@ pub mod ultrasonic {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    
+    pub trait DetectPerson {
+        fn person_detected(&mut self, min_distance: u128) -> bool;
+    }
+    
+    impl DetectPerson for ultrasonic::Ultrasonic {
+        fn person_detected(&mut self, min_distance: u128) -> bool {
+            self.get_median_reading() < min_distance
+        }
+    }
+    
+    #[test]
+    fn test1() {
+        let mut ultrasonic = ultrasonic::Ultrasonic::new(5, 6);
+        assert_eq!(false, ultrasonic.person_detected(30));
+    }
+}
+
