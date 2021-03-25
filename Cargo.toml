@@ -1,5 +1,5 @@
 [package]
-name = "ultrasonic"
+name = "sensors"
 version = "0.1.0"
 authors = ["Gary <gsuyemoto@gmail.com>"]
 edition = "2018"
@@ -8,5 +8,3 @@ edition = "2018"
 
 [dependencies]
 rust_gpiozero = "0.2.0"
-crossbeam-channel = "0.4"
-crossbeam-utils = "0.8.3"
