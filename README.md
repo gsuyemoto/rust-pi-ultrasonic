@@ -1,2 +1,2 @@
 # rust_sensors
-Sensor module coded in Rust. Made to be add in with IoT projects that need a particular sensor.
+Sensor modules coded in Rust. Made to be added to IoT projects in a modular fashion.
