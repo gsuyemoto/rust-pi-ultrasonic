@@ -5,9 +5,11 @@ pub mod ultrasonic {
     const MEDIAN_READINGS: usize    = 11;
     const MEDIAN_INDEX: usize       = 6;
     const DIVISOR_INCHES: u128      = 148;
-    const MAX_IN_INCHES: u128       = 196; // max distance of sensor
-    
-    const DIVISOR_CM: u128          = 148;
+    // const DIVISOR_CM: u128          = 148; // in centimeters 
+    const MAX_IN_INCHES: u128       = 196; // max distance of sonar
+    // const MAX_IN_CM: u128           = 500; // max distance in centimeters
+    const TIME_TO_FAIL: u128        = 1700;
+    const TIME_NEXT_READING: u64    = 5;
     
     pub struct Ultrasonic {
         pin_out:    u8,
@@ -32,13 +34,13 @@ pub mod ultrasonic {
             for _ in 0..MEDIAN_READINGS {
                 // send sonic
                 pin_out.on();
-                std::thread::sleep(Duration::from_micros(5));
+                std::thread::sleep(Duration::from_micros(TIME_NEXT_READING));
                 pin_out.off();
                 
                 // measure
                 let check_fail      = Instant::now();
                 while !pin_in.is_active() { 
-                    if check_fail.elapsed().as_micros() > 1700 {
+                    if check_fail.elapsed().as_micros() > TIME_TO_FAIL {
                         println!("ultrasonic sensor failed.");
                         return 0;
                     }                
