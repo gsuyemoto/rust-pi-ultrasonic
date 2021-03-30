@@ -13,6 +13,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ba4aede83fc3617411dc6993bc8c70919750c1c257c6ca6a502aed6e0e2394ae"
 
 [[package]]
+name = "raspi-ultrasonic"
+version = "0.1.0"
+dependencies = [
+ "rust_gpiozero",
+]
+
+[[package]]
 name = "rppal"
 version = "0.11.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -29,11 +36,4 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2de0e2fde7b1908026fcb13cff771d9cdb21d7e103220c3a6a9b62b4b8346fa8"
 dependencies = [
  "rppal",
-]
-
-[[package]]
-name = "sensors"
-version = "0.1.0"
-dependencies = [
- "rust_gpiozero",
 ]

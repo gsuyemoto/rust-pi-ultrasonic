@@ -1,5 +1,5 @@
 [package]
-name = "sensors"
+name = "raspi-ultrasonic"
 version = "0.1.0"
 authors = ["Gary <gsuyemoto@gmail.com>"]
 edition = "2018"
